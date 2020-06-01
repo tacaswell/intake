@@ -93,8 +93,8 @@ class CatSelector(BaseSelector):
         right = '└──'
 
         def get_children(parent):
-            return [e() for k, e in parent.items()
-                    if e.describe()['container'] == 'catalog']
+            return [ds for k, ds in parent.items()
+                    if ds.describe()['container'] == 'catalog']
 
         if len(cats) == 0:
             return
@@ -123,7 +123,7 @@ class CatSelector(BaseSelector):
         nestedness = max_nestedness
 
         old = list(self.widget.options.values())
-        nested = [cat for cat in old if getattr(cat, 'cat') is not None]
+        nested = [cat for cat in old if getattr(cat, 'cat', None) is not None]
         parents = {cat.cat for cat in nested}
         parents_to_remove = cats
         while len(parents_to_remove) > 0 and nestedness > 0:
